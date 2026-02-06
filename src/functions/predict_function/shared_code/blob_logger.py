@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 import os
 import uuid
+from contextlib import suppress
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from contextlib import suppress
 
 from azure.storage.blob import BlobServiceClient
 
