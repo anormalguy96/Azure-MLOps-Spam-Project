@@ -32,7 +32,9 @@ def main() -> int:
     ml = get_ml_client(s)
 
     datastore_name = "ext_blob_datasets"
-    account_key = os.getenv("AZURE_STORAGE_ACCOUNT_KEY") or _extract_account_key(s.storage_connection_string)
+    account_key = os.getenv("AZURE_STORAGE_ACCOUNT_KEY") or _extract_account_key(
+        s.storage_connection_string
+    )
 
     store = AzureBlobDatastore(
         name=datastore_name,

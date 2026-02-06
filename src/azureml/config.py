@@ -24,7 +24,7 @@ class Settings:
     aml_deployment_name: str
 
     @staticmethod
-    def from_env() -> "Settings":
+    def from_env() -> Settings:
         def req(name: str) -> str:
             val = os.getenv(name)
             if not val:

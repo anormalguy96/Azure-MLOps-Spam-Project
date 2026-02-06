@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 import requests
 
@@ -29,6 +29,6 @@ class AMLOnlineEndpointClient:
         )
         latency_ms = int((time.perf_counter() - start) * 1000)
         r.raise_for_status()
-        payload: Dict[str, Any] = r.json()
+        payload: dict[str, Any] = r.json()
         preds = [int(x) for x in payload.get("predictions", [])]
         return AMLPrediction(predictions=preds, latency_ms=latency_ms)

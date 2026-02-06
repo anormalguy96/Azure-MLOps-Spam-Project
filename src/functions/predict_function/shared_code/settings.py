@@ -12,7 +12,7 @@ class FunctionSettings:
     log_container: str
 
     @staticmethod
-    def from_env() -> "FunctionSettings":
+    def from_env() -> FunctionSettings:
         scoring_uri = os.getenv("AML_SCORING_URI", "")
         key = os.getenv("AML_ENDPOINT_KEY", "")
         if not scoring_uri:

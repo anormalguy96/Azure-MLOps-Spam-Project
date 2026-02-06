@@ -6,7 +6,7 @@ import logging
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import mlflow.pyfunc
 import pandas as pd
@@ -18,7 +18,7 @@ class _ModelWrapper:
     def __init__(self, model_dir: Path) -> None:
         self.model = mlflow.pyfunc.load_model(str(model_dir))
 
-    def predict(self, texts: List[str]) -> List[int]:
+    def predict(self, texts: list[str]) -> list[int]:
         df = pd.DataFrame({"text": texts})
         preds = self.model.predict(df)
         return [int(x) for x in list(preds)]
@@ -27,7 +27,7 @@ class _ModelWrapper:
 class Handler(BaseHTTPRequestHandler):
     model: _ModelWrapper
 
-    def _send(self, code: int, payload: Dict[str, Any]) -> None:
+    def _send(self, code: int, payload: dict[str, Any]) -> None:
         body = json.dumps(payload).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
@@ -35,7 +35,7 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         if self.path != "/score":
             self._send(404, {"error": "not_found"})
             return
@@ -44,7 +44,7 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8")
             data = json.loads(raw) if raw else {}
-            texts: List[str]
+            texts: list[str]
             if isinstance(data, dict) and "text" in data:
                 texts = [str(data["text"])]
             elif isinstance(data, dict) and "texts" in data:
@@ -57,11 +57,11 @@ class Handler(BaseHTTPRequestHandler):
             preds = self.model.predict(texts)
             latency_ms = int((time.perf_counter() - start) * 1000)
             self._send(200, {"predictions": preds, "latency_ms": latency_ms})
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             LOG.exception("Request failed")
             self._send(500, {"error": "server_error", "detail": str(exc)})
 
-    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
+    def log_message(self, format: str, *args: Any) -> None:
         LOG.info("%s - %s", self.address_string(), format % args)
 
 

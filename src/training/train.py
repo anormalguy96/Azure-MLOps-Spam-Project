@@ -6,7 +6,6 @@ import logging
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Tuple
 
 import mlflow
 import pandas as pd
@@ -15,7 +14,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-
 
 LOG = logging.getLogger("training")
 
@@ -39,7 +37,7 @@ def configure_logging() -> None:
     )
 
 
-def load_dataset(path: Path) -> Tuple[pd.Series, pd.Series]:
+def load_dataset(path: Path) -> tuple[pd.Series, pd.Series]:
     df = pd.read_csv(path)
     if "text" not in df.columns or "label" not in df.columns:
         raise ValueError('CSV must contain columns: "text", "label"')

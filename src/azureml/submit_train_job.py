@@ -25,7 +25,7 @@ def ensure_compute(ml, name: str) -> None:
         ml.compute.get(name)
         LOG.info("Compute exists: %s", name)
         return
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
 
     compute = AmlCompute(

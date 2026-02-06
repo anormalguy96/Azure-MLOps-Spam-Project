@@ -4,10 +4,9 @@ import json
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import azure.functions as func
-
 from shared_code.aml_client import AMLOnlineEndpointClient
 from shared_code.blob_logger import PredictionLogger
 from shared_code.settings import FunctionSettings
@@ -15,7 +14,7 @@ from shared_code.settings import FunctionSettings
 LOG = logging.getLogger("function.predict")
 
 
-def _json_response(payload: Dict[str, Any], status: int = 200) -> func.HttpResponse:
+def _json_response(payload: dict[str, Any], status: int = 200) -> func.HttpResponse:
     return func.HttpResponse(
         body=json.dumps(payload),
         status_code=status,
@@ -51,6 +50,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     except ValueError:
         return _json_response({"error": "Invalid JSON body"}, 400)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         LOG.exception("Unhandled error")
         return _json_response({"error": "server_error", "detail": str(exc)}, 500)

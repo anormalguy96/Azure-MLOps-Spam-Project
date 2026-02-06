@@ -4,7 +4,7 @@ import json
 import logging
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 import mlflow.pyfunc
 import pandas as pd
@@ -35,7 +35,7 @@ def init() -> None:
     LOG.info("Model loaded.")
 
 
-def _normalize_payload(raw_data: Any) -> List[str]:
+def _normalize_payload(raw_data: Any) -> list[str]:
     payload = json.loads(raw_data) if isinstance(raw_data, str) else raw_data
 
     if isinstance(payload, dict) and "text" in payload:
@@ -47,7 +47,7 @@ def _normalize_payload(raw_data: Any) -> List[str]:
     raise ValueError('Expected {"text":"..."} or {"texts":[...]} or ["..."].')
 
 
-def run(raw_data: Any) -> Dict[str, Any]:
+def run(raw_data: Any) -> dict[str, Any]:
     if _MODEL is None:
         raise RuntimeError("Model is not loaded. init() was not called?")
 

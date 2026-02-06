@@ -4,7 +4,7 @@ import json
 import os
 import sys
 import time
-from typing import Any, Dict
+from typing import Any
 
 import requests
 
@@ -17,7 +17,7 @@ def main() -> int:
         return 2
 
     text = " ".join(sys.argv[1:]) or "WIN a free gift card now!!!"
-    body: Dict[str, Any] = {"text": text}
+    body: dict[str, Any] = {"text": text}
 
     start = time.perf_counter()
     r = requests.post(

@@ -27,7 +27,7 @@ def _latest_model_version(ml, model_name: str) -> str:
     versions = [m.version for m in ml.models.list(name=model_name)]
     if not versions:
         raise RuntimeError(f"No versions found for model: {model_name}")
-    return max(versions, key=lambda v: int(v))  # type: ignore[arg-type]
+    return max(versions, key=lambda v: int(v))
 
 
 def main() -> int:
@@ -66,7 +66,9 @@ def main() -> int:
         endpoint_name=endpoint_name,
         model=model,
         environment=env,
-        code_configuration=CodeConfiguration(code=str(Path("src/serving")), scoring_script="score.py"),
+        code_configuration=CodeConfiguration(
+            code=str(Path("src/serving")), scoring_script="score.py"
+        ),
         instance_type=os.getenv("AML_ENDPOINT_SKU", "Standard_DS3_v2"),
         instance_count=int(os.getenv("AML_ENDPOINT_INSTANCES", "1")),
     )

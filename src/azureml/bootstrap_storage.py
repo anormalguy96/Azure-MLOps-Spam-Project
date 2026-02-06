@@ -23,11 +23,13 @@ def ensure_container(service: BlobServiceClient, name: str) -> None:
     try:
         container_client.create_container()
         LOG.info("Created container: %s", name)
-    except Exception:  # noqa: BLE001
+    except Exception:
         LOG.info("Container exists (or cannot be created): %s", name)
 
 
-def upload_if_changed(service: BlobServiceClient, container: str, blob_name: str, path: Path) -> None:
+def upload_if_changed(
+    service: BlobServiceClient, container: str, blob_name: str, path: Path
+) -> None:
     bc = service.get_blob_client(container=container, blob=blob_name)
     data = path.read_bytes()
 
@@ -40,7 +42,7 @@ def upload_if_changed(service: BlobServiceClient, container: str, blob_name: str
                 blob_name,
             )
             return
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
 
     bc.upload_blob(data, overwrite=True)
