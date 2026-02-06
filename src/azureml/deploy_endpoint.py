@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+from typing import Any
 
 from azure.ai.ml.entities import (
     CodeConfiguration,
@@ -23,7 +24,7 @@ def configure_logging() -> None:
     )
 
 
-def _latest_model_version(ml, model_name: str) -> str:
+def _latest_model_version(ml: Any, model_name: str) -> str:
     versions = [m.version for m in ml.models.list(name=model_name)]
     if not versions:
         raise RuntimeError(f"No versions found for model: {model_name}")

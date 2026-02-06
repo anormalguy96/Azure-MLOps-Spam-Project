@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+from typing import Any
 
 from azure.ai.ml import Input, command
 from azure.ai.ml.constants import AssetTypes
@@ -20,7 +21,7 @@ def configure_logging() -> None:
     )
 
 
-def ensure_compute(ml, name: str) -> None:
+def ensure_compute(ml: Any, name: str) -> None:
     try:
         ml.compute.get(name)
         LOG.info("Compute exists: %s", name)
@@ -39,7 +40,7 @@ def ensure_compute(ml, name: str) -> None:
     LOG.info("Compute created: %s", name)
 
 
-def ensure_env(ml, name: str) -> Environment:
+def ensure_env(ml: Any, name: str) -> Environment:
     env = Environment(
         name=name,
         description="Training environment for spam demo (MLflow + scikit-learn).",
