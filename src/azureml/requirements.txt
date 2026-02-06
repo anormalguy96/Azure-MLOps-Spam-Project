@@ -1,0 +1,4 @@
+azure-ai-ml>=1.10.0,<2.0.0
+azure-identity>=1.15.0,<2.0.0
+azure-storage-blob>=12.19.0,<13.0.0
+requests>=2.32.0,<3.0.0

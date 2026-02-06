@@ -1,0 +1,11 @@
+name: spam-infer-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - mlflow==2.16.2
+      - pandas==2.2.2
+      - scikit-learn==1.5.2
+      - numpy==2.0.2
